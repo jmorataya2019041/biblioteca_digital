@@ -11,6 +11,7 @@ const morgan = require("morgan");
 app.use(cors());
 
 //Importación de rutas
+const login_rutas = require("./src/routes/login.route")
 
 
 //Middlewares
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 app.use(morgan("dev"));
 
 //Utilización de rutas
+app.use("/Biblioteca_Digital", login_rutas)
 
 
 //Exportación
