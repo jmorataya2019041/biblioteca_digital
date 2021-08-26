@@ -12,6 +12,7 @@ app.use(cors());
 
 //Importación de rutas
 const login_rutas = require("./src/routes/login.route")
+const usuario_rutas = require("./src/routes/usuario.route");
 
 
 //Middlewares
@@ -21,6 +22,7 @@ app.use(morgan("dev"));
 
 //Utilización de rutas
 app.use("/Biblioteca_Digital", login_rutas)
+app.use("/Biblioteca_Digital", usuario_rutas)
 
 
 //Exportación
