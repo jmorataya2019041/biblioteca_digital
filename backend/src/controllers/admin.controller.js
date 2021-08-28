@@ -1,5 +1,6 @@
 'use strict'
 const Usuario = require("../models/usuario.model");
+const Tipo_Bibliografia = require("../models/tipo_bibliografia.model")
 const bcrypt = require("bcrypt-nodejs");
 
 //Función para crear al administrador
@@ -167,11 +168,43 @@ async function eliminarUsuario(req, res){
     }
 }
 
+//Función para agregar solamente el tipo revista
+async function agregarTipo_Bibliografia(req, res){
+    var params = req.body;
+    var tipoBibliografiaModel = new Tipo_Bibliografia();
+    if(params.tipo){
+        tipoBibliografiaModel.tipo = params.tipo;
+
+        await Tipo_Bibliografia.find({or: [
+            {tipo: tipoBibliografiaModel.tipo}
+        ]}).exec((err, revistaEncontrado) => {
+            if(err){
+                return res.status(500).send({ mensaje: "Error en la petición" })
+            }else if(revistaEncontrado && revistaEncontrado.length >= 1){
+                return res.status(500).send({ mensaje: "Ya existe el tipo de bibliografía"})
+            }else{
+                tipoBibliografiaModel.save((err, tipoGuardado) => {
+                    if(err){
+                        return res.status(500).send({ mensaje: "Error en la petición al guardar el tipo de bibliografía"})
+                    }else if(!tipoGuardado){
+                        return res.status(500).send({ mensaje: "No se ha podido guardar el tipo de bibliografía"})
+                    }else{
+                        return res.status(200).send({tipoGuardado})
+                    }
+                })
+            }
+        })
+    }else{
+        return res.status(500).send({ mensaje: "No ha completado todos los parámetros"})
+    }
+}
+
 module.exports = {
     adminDefault,
     agregarUsuario,
     obtenerUsuario,
     obtenerUsuarios,
     editarUsuario,
-    eliminarUsuario
+    eliminarUsuario,
+    agregarTipo_Bibliografia
 }

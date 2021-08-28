@@ -9,5 +9,6 @@ api.get('/obtenerUsuario/:idUsuario', md_autenticacion.ensureAuth, adminControll
 api.get('/obtenerUsuarios', md_autenticacion.ensureAuth, adminController.obtenerUsuarios)
 api.put('/editarUsuario/:idUsuario', md_autenticacion.ensureAuth, adminController.editarUsuario)
 api.delete('/eliminarUsuario/:idUsuario', md_autenticacion.ensureAuth, adminController.eliminarUsuario)
+api.post("/agregarTipo_Bibliografia", adminController.agregarTipo_Bibliografia)
 
 module.exports = api;

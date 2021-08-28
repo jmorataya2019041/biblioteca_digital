@@ -8,7 +8,7 @@ mongoose.connect('mongodb://ubdhw8jzzr8tsj9cjqiq:5Cb1QMN9PyQweWwatfbi@bckaetqwv0
     console.log("Se encuentra conectado a la base de datos");
 
     crearAdmin();
-
+    
     app.listen(3000, function(){
         console.log("Está funcionando en el puerto 3000");
     })
