@@ -4,7 +4,7 @@ const app = require("./app");
 const newAdmin = require('./src/controllers/admin.controller')
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/bibliotecadigital', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}).then(() => {
+mongoose.connect('mongodb://ubdhw8jzzr8tsj9cjqiq:5Cb1QMN9PyQweWwatfbi@bckaetqwv0as20d-mongodb.services.clever-cloud.com:27017/bckaetqwv0as20d', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}).then(() => {
     console.log("Se encuentra conectado a la base de datos");
 
     crearAdmin();
