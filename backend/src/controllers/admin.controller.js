@@ -91,7 +91,87 @@ async function agregarUsuario(req, res){
     }
 }
 
+//Función para obtener el usuario
+async function obtenerUsuario(req, res){
+    if(req.user.rol === "admin"){
+        var idUsuario = req.params.idUsuario;
+        await Usuario.findById(idUsuario, (err, usuarioEncontrado) => {
+            if(err){
+                return res.status(500).send({ mensaje: "Error en la petición"})
+            }else if(!usuarioEncontrado){
+                return res.status(500).send({ mensaje: "No se ha podido obtener el usuario"})
+            }else{
+                return res.status(200).send({usuarioEncontrado})
+            }
+        })
+    }else{
+        return res.status(500).send({ mensaje: "No tiene el rol de autorización"})
+    }
+}
+
+//Función para obtener a todos los usuarios
+async function obtenerUsuarios(req, res){
+    if(req.user.rol === "admin"){
+        await Usuario.find({rol: {$in: ["Bibliotecario", "Estudiante"]}}, (err, usuarios) => {
+            if(err){
+                return res.status(500).send({ mensaje: "Error en la petición"})
+            }else if(!usuarios){
+                return res.status(500).send({ mensaje: "No se ha podido obtener los usuarios"})
+            }else{
+                return res.status(200).send({usuarios})
+            }
+        })
+    }else{
+        return res.status(500).send({ mensaje: "No tiene el rol de autorización"})
+    }
+}
+
+//Función para editar cualquier usuario
+async function editarUsuario(req, res){
+    if(req.user.rol === "admin"){
+        var params = req.body;
+        var idUsuario = req.params.idUsuario;
+        delete params.CUI;
+        delete params.image;
+        delete params.password;
+
+        await Usuario.findByIdAndUpdate(idUsuario, params, {new: true}, (err, usuarioEliminado) => {
+            if(err){
+                return res.status(500).send({ mensaje: "Error en la petición"})
+            }else if(!usuarioEliminado){
+                return res.status(500).send({ mensaje: "No se ha podido eliminar el usuario"})
+            }else{
+                return res.status(200).send({usuarioEliminado})
+            }
+        })
+    }else{
+        return res.status(500).send({ mensaje: "No tiene el rol de autorización"})
+    }
+}
+
+//Función para eliminar cualquier usuario
+async function eliminarUsuario(req, res){
+    if(req.user.rol === "admin"){
+        var idUsuario = req.params.idUsuario;
+        await Usuario.findByIdAndDelete(idUsuario, (err, usuarioEliminado) => {
+            if(err){
+                return res.status(500).send({ mensaje: "Error en la petición"})
+            }else if(!usuarioEliminado){
+                return res.status(500).send({ mensaje: "No se ha podido eliminar el usuario"})
+            }else{
+                return res.status(200).send({usuarioEliminado})
+            }
+        })
+    }else{
+        return res.status(500).send({ mensaje: "No tiene el rol de autorización"})
+    }
+}
+
 module.exports = {
     adminDefault,
-    agregarUsuario
+    agregarUsuario,
+    obtenerUsuario,
+    obtenerUsuarios,
+    editarUsuario,
+    eliminarUsuario
 }
