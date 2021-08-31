@@ -1,6 +1,7 @@
 'use strict'
 const Usuario = require("../models/usuario.model");
 const Tipo_Bibliografia = require("../models/tipo_bibliografia.model")
+const Bibliografia = require("../models/bibliografia.model")
 const bcrypt = require("bcrypt-nodejs");
 
 //Función para crear al administrador
@@ -199,6 +200,104 @@ async function agregarTipo_Bibliografia(req, res){
     }
 }
 
+//Función para obtener los tipos de bibliografía
+async function tiposBibliografia(req, res){
+    if(req.user.rol === "admin"){
+        await Tipo_Bibliografia.find((err, bibliografias) => {
+            if(err){
+                return res.status(500).send({ mensaje: "Error en la petición"})
+            }else if(!bibliografias){
+                return res.status(500).send({ mensaje: "No se ha podido obtener los tipos de bibliografías"})
+            }else{
+                return res.status(200).send({bibliografias})
+            }
+        })
+    }else{
+        return res.status(500).send({ mensaje: "No tiene el rol de autorización"})
+    }
+}
+
+//Función para agregar un libro
+async function agregarLibro(req, res){
+    if(req.user.rol === "admin"){
+        var params = req.body;
+        var bibliografiaModel = new Bibliografia();
+        if(params.autor && params.titulo && params.edicion && params.descripcion && params.palabras_clave && params.temas && params.copias && params.disponibles){
+            bibliografiaModel.autor = params.autor;
+            bibliografiaModel.titulo = params.titulo;
+            bibliografiaModel.edicion = params.edicion;
+            bibliografiaModel.descripcion = params.descripcion;
+            bibliografiaModel.palabras_clave = params.palabras_clave;
+            bibliografiaModel.temas = params.temas;
+            bibliografiaModel.copias = params.copias;
+            bibliografiaModel.disponibles = params.disponibles;
+            bibliografiaModel.tipo_bibliografia = '612abdbce30c2e1d208cc194';
+
+            await Bibliografia.find({$or: [
+                {titulo: bibliografiaModel.titulo}
+            ]}).exec((err, libro) => {
+                if(err){
+                    return res.status(500).send({ mensaje: "Error en la petición" })
+                }else if(libro && libro.length >= 1){
+                    return res.status(500).send({ mensaje: "Libro ya existente"})
+                }else{
+                    bibliografiaModel.save((err, libroGuardado) => {
+                        if(err){
+                            return res.status(500).send({ mensaje: "Error en la petición al guardar el libro"})
+                        }else if(!libroGuardado){
+                            return res.status(500).send({ mensaje: "No se ha podido guardar el libro"})
+                        }else{
+                            return res.status(200).send({libroGuardado})
+                        }
+                    })
+                }
+            })
+        }else{
+            return res.status(500).send({ mensaje: "No ha completado todos los parámetros"})
+        }
+    }else{
+        return res.status(500).send({ mensaje: "No tiene el rol de autorización"})
+    }
+}
+
+//Función para editar un libro
+async function editarLibro(req, res){
+    if(req.user.rol === "admin"){
+        var idLibro = req.params.idLibro;
+        var params = req.body;
+        delete params.tipo_bibliografia;
+        await Bibliografia.findByIdAndUpdate(idLibro, params, {new: true}, (err, libroEditado) => {
+            if(err){
+                return res.status(500).send({ mensaje: "Error en la petición"})
+            }else if(!libroEditado){
+                return res.status(500).send({ mensaje: "No se ha podido editar el libro"})
+            }else{
+                return res.status(200).send({libroEditado})
+            }
+        })
+    }else{
+        return res.status(500).send({ mensaje: "No tiene el rol de autorización"})
+    }
+}
+
+//Función para eliminar un libro
+async function eliminarLibro(req, res){
+    if(req.user.rol === "admin"){
+        var idLibro = req.params.idLibro;
+        await Bibliografia.findByIdAndDelete(idLibro, (err, libroEliminado) => {
+            if(err){
+                return res.status(500).send({ mensaje: "Error en la petición"})
+            }else if(!libroEliminado){
+                return res.status(500).send({ mensaje: "No se ha podido eliminar el libro"})
+            }else{
+                return res.status(200).send({libroEliminado})
+            }
+        })
+    }else{
+        return res.status(500).send({ mensaje: "No tiene el rol de autorización"})
+    }
+}
+
 module.exports = {
     adminDefault,
     agregarUsuario,
@@ -206,5 +305,9 @@ module.exports = {
     obtenerUsuarios,
     editarUsuario,
     eliminarUsuario,
-    agregarTipo_Bibliografia
+    agregarTipo_Bibliografia,
+    tiposBibliografia,
+    agregarLibro,
+    editarLibro,
+    eliminarLibro
 }

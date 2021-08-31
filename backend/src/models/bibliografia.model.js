@@ -7,6 +7,8 @@ var BibliografiaSchema = Schema ({
     titulo: String,
     edicion: String,
     descripcion: String,
+    palabras_clave: String,
+    temas: String,
     copias: Number,
     disponibles: Number,
     tipo_bibliografia: {type: Schema.Types.ObjectId, ref: "tipo_bibliografia"}
