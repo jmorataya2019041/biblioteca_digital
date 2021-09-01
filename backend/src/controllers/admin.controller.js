@@ -2,6 +2,7 @@
 const Usuario = require("../models/usuario.model");
 const Tipo_Bibliografia = require("../models/tipo_bibliografia.model")
 const Bibliografia = require("../models/bibliografia.model")
+const Datos_Revista = require("../models/datos_revista.model")
 const bcrypt = require("bcrypt-nodejs");
 
 //Función para crear al administrador
@@ -298,6 +299,71 @@ async function eliminarLibro(req, res){
     }
 }
 
+//Función para agregar una revista
+async function agregarRevista(req, res){
+    if(req.user.rol === "admin"){
+        var bibliografiaModel = new Bibliografia();
+        var datos_revistaModel = new Datos_Revista();
+        var params = req.body;
+        if(params.autor && params.titulo && params.edicion && params.descripcion && params.palabras_clave && params.temas && params.copias && params.disponibles && params.frecuencia_actual && params.ejemplares){
+            bibliografiaModel.autor = params.autor;
+            bibliografiaModel.titulo = params.titulo;
+            bibliografiaModel.edicion = params.edicion;
+            bibliografiaModel.descripcion = params.descripcion;
+            bibliografiaModel.palabras_clave = params.palabras_clave;
+            bibliografiaModel.temas = params.temas;
+            bibliografiaModel.copias = params.copias;
+            bibliografiaModel.disponibles = params.disponibles;
+            bibliografiaModel.tipo_bibliografia = '612abdace30c2e1d208cc191';
+
+            await Bibliografia.find({$or: [
+                {titulo: bibliografiaModel.titulo}
+            ]}).exec((err, revista) => {
+                if(err){
+                    return res.status(500).send({ mensaje: "Error en la petición" })
+                }else if(revista && revista.length >= 1){
+                    return res.status(500).send({ mensaje: "La revista es existente"})
+                }else{
+                    bibliografiaModel.save((err,revistaGuardada) => {
+                        if(err){
+                            return res.status(500).send({ mensaje: "Error en la petición al guardar"})
+                        }else if(!revistaGuardada){
+                            return res.status(500).send({ mensaje: "No se ha podido guardar la revista"})
+                        }else{
+                            datos_revistaModel.frecuencia_actual = params.frecuencia_actual;
+                            datos_revistaModel.ejemplares = params.ejemplares;
+                            datos_revistaModel.bibliografia = revistaGuardada._id;
+                            datos_revistaModel.save((err, save) => {
+                                if(err){
+                                    return res.status(500).send({ mensaje: "Error en la petición al guardar los datos de la revista"})
+                                }else if(!save){
+                                    return res.status(500).send({ mensaje: "No se ha podido guardar los datos de la revista"})
+                                }else{
+                                    console.log(save);
+                                }
+                            })
+                            res.json(revistaGuardada)
+                        }
+                    })
+                }
+            })
+        }else{
+            return res.status(500).send({ mensaje: "No ha completado todos los parámetros"})
+        }
+    }else{
+        return res.status(500).send({ mensaje: "No tiene el rol de autorización"})
+    }
+}
+
+//Función para editar una revista
+async function editarRevista(req, res){
+    if(req.user.rol === "admin"){
+        var idRevista = req.params.idRevista;
+    }else{
+        return res.status(500).send({ mensaje: "No tiene el rol de autorización"})
+    }
+}
+
 module.exports = {
     adminDefault,
     agregarUsuario,
@@ -309,5 +375,7 @@ module.exports = {
     tiposBibliografia,
     agregarLibro,
     editarLibro,
-    eliminarLibro
+    eliminarLibro,
+    agregarRevista,
+    editarRevista
 }

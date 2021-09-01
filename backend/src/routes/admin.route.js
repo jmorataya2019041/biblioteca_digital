@@ -14,5 +14,7 @@ api.get('/tiposBibliografia', md_autenticacion.ensureAuth, adminController.tipos
 api.post('/agregarLibro', md_autenticacion.ensureAuth, adminController.agregarLibro)
 api.put('/editarLibro/:idLibro', md_autenticacion.ensureAuth, adminController.editarLibro)
 api.delete('/eliminarLibro/:idLibro', md_autenticacion.ensureAuth, adminController.eliminarLibro)
+api.post('/agregarRevista', md_autenticacion.ensureAuth, adminController.agregarRevista)
+api.put('/editarRevista/:idRevista', md_autenticacion.ensureAuth, adminController.editarRevista)
 
 module.exports = api;
