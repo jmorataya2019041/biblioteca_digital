@@ -359,6 +359,53 @@ async function agregarRevista(req, res){
 async function editarRevista(req, res){
     if(req.user.rol === "admin"){
         var idRevista = req.params.idRevista;
+        var params = req.body;
+        delete params.tipo_bibliografia;
+        await Datos_Revista.findOneAndUpdate({bibliografia: idRevista}, params, {new: true}, (err, datosEditados)=> {
+            if(err){
+                return res.status(500).send({ mensaje: "Error en la petición al editar los datos de la revista"})
+            }else if(!datosEditados){
+                return res.status(500).send({ mensaje: "No se han podido editar los datos de la revista"})
+            }else{
+                console.log(datosEditados);
+            }
+        })
+        await Bibliografia.findByIdAndUpdate(idRevista, params, {new: true},(err, bibliografiaEditada)=> {
+            if(err){
+                return res.status(500).send({ mensaje: "Error en la petición al editar la bibliografia"})
+            }else if(!bibliografiaEditada){
+                return res.status(500).send({ mensaje: "No se ha podido editar la revista"})
+            }else{
+                return res.status(200).send({bibliografiaEditada})
+            }
+        })
+    }else{
+        return res.status(500).send({ mensaje: "No tiene el rol de autorización"})
+    }
+}
+
+//Función para eliminar una revista
+async function eliminarRevista(req, res){
+    if(req.user.rol === "admin"){
+        var idRevista = req.params.idRevista;
+        await Datos_Revista.findOneAndDelete({bibliografia: idRevista}, (err, datosEliminados) => {
+            if(err){
+                return res.status(500).send({ mensaje: "Error en la petición al eliminar la revista"})
+            }else if(!datosEliminados){
+                return res.status(500).send({ mensaje: "No se ha podido eliminar los datos de la revista"})
+            }else{
+                console.log(datosEliminados);
+            }
+        })
+        await Bibliografia.findByIdAndDelete(idRevista, (err, bibliografiaEliminada) => {
+            if(err){
+                return res.status(500).send({ mensaje: "Error en la petición al eliminar la bibliografia"})
+            }else if(!bibliografiaEliminada){
+                return res.status(500).send({ mensaje: "No se ha podido eliminar la revista"})
+            }else{
+                return res.status(200).send({bibliografiaEliminada})
+            }
+        })
     }else{
         return res.status(500).send({ mensaje: "No tiene el rol de autorización"})
     }
@@ -377,5 +424,6 @@ module.exports = {
     editarLibro,
     eliminarLibro,
     agregarRevista,
-    editarRevista
+    editarRevista,
+    eliminarRevista
 }
