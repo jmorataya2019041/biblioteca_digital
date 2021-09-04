@@ -8,5 +8,8 @@ api.post('/registro', usuarioController.registro);
 api.get('/miUsuario', md_autenticacion.ensureAuth, usuarioController.miUsuario)
 api.put('/editarMiUsuario', md_autenticacion.ensureAuth, usuarioController.editarMiUsuario)
 api.delete('/eliminarMiUsuario', md_autenticacion.ensureAuth, usuarioController.eliminarMiUsuario)
+api.get('/obtenerLibros', usuarioController.obtenerLibros)
+api.get('/obtenerRevistas', usuarioController.obtenerRevistas)
+api.get('/bibliografias', usuarioController.bibliografias)
 
 module.exports = api;

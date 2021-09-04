@@ -1,6 +1,10 @@
 'use strict'
 const Usuario = require("../models/usuario.model");
 const bcrypt = require("bcrypt-nodejs");
+const Prestamo = require("../models/prestamo.model")
+const Historial = require("../models/historial.model")
+const Bibliografia = require("../models/bibliografia.model")
+const Datos_Revista = require("../models/datos_revista.model")
 
 //Función para registrarse
 async function registro(req, res){
@@ -84,9 +88,51 @@ async function eliminarMiUsuario(req, res){
     })
 }
 
+//Función para obtener los libros
+async function obtenerLibros(req, res){
+    await Bibliografia.find({tipo_bibliografia: "612abdbce30c2e1d208cc194"}).populate('tipo_bibliografia').exec((err, libros) => {
+        if(err){
+            return res.status(500).send({ mensaje: "Error en la petición"})
+        }else if(!libros){
+            return res.status(500).send({ mensaje: "No se ha podido obtener los libros"})
+        }else{
+            return res.status(200).send({libros})
+        }
+    })
+}
+
+//Función para obtener las revistas
+async function obtenerRevistas(req, res){
+    await Datos_Revista.find().populate('bibliografia').exec((err, revistas) => {
+        if(err){
+            return res.status(500).send({ mensaje: "Error en la petición"})
+        }else if(!revistas){
+            return res.status(500).send({ mensaje: "No se ha podido obtener las revistas"})
+        }else{
+            return res.status(200).send({revistas})
+        }
+    })
+}
+
+//Función para obtener todas las bibliografías
+async function bibliografias(req, res){
+    await Bibliografia.find().populate('tipo_bibliografia').exec((err, bibliografias) => {
+        if(err){
+            return res.status(500).send({ mensaje: "Error en la petición"})
+        }else if(!bibliografias){
+            return res.status(500).send({ mensaje: "No se ha podido obtener las bibliografías"})
+        }else{
+            return res.status(200).send({bibliografias})
+        }
+    })
+}
+
 module.exports = {
     registro,
     miUsuario,
     editarMiUsuario,
-    eliminarMiUsuario
+    eliminarMiUsuario,
+    obtenerLibros,
+    obtenerRevistas,
+    bibliografias
 }
