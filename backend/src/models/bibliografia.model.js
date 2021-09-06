@@ -11,6 +11,8 @@ var BibliografiaSchema = Schema ({
     temas: String,
     copias: Number,
     disponibles: Number,
+    n_prestado: Number,
+    n_busqueda: Number,
     tipo_bibliografia: {type: Schema.Types.ObjectId, ref: "tipo_bibliografia"}
 })
 
