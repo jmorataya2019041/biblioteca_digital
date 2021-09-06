@@ -10,7 +10,7 @@ var UsuarioSchema = Schema({
     email: String,
     rol: String,
     password: String,
-    n_prestamos: Number,
+    n_prestamos: {type: Number, default: 0},
     image: {type: String, default: "ImageAvatar"}
 })
 
