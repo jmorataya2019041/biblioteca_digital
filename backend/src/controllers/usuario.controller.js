@@ -194,7 +194,31 @@ async function prestarBibliografia(req, res){
 
 //Función para devolver la bibliografia
 async function devolverLibro(req, res){
-
+    var idPrestamo = req.params.idPrestamo;
+    var prestamo = await Prestamo.findById(idPrestamo);
+    if(prestamo.usuario == req.user.sub){
+        await Prestamo.findByIdAndUpdate(idPrestamo, {fecha_final: new Date(Date.now()), estado: true}, {new: true}, (err, libroDevuelto) => {
+            if(err){
+                return res.status(500).send({ mensaje: "Error en la petición"})
+            }else if(!libroDevuelto){
+                return res.status(500).send({ mensaje: "No se ha podido devolver el libro"})
+            }else{
+                Bibliografia.findByIdAndUpdate(prestamo.bibliografia, {$inc: {disponibles: +1}}, {new: true}, (err, bibliografia) => {
+                    if(err){
+                        return res.status(500).send({ mensaje: "Error en la petición al devolver el libro"})
+                    }else if(!bibliografia){
+                        return res.status(500).send({mensaje: "No se ha podido devolver el libro"})
+                    }else{
+                        console.log(bibliografia);
+                    }
+                })
+                console.log(libroDevuelto);
+                return res.status(200).send({mensaje: "El libro se ha devuelto"})
+            }
+        })
+    }else{
+        return res.status(500).send({mensaje: "Este préstamo no le pertenece"})
+    }
 }
 
 //Función para ver mis préstamos pendientes
