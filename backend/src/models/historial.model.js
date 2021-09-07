@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const Schema  = mongoose.Schema;
 
 var HistorialSchema = Schema({
+    prestamo: {type: Schema.Types.ObjectId, ref: "prestamo"},
     usuario: {type: Schema.Types.ObjectId, ref: "usuarios"},
     bibliografia: {type: Schema.Types.ObjectId, ref: "bibliografias"},
     fecha_inicial: Date,
