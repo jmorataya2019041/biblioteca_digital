@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 var PrestamoSchema = Schema({
     usuario: {type: Schema.Types.ObjectId, ref: "usuario"},
     bibliografia: {type: Schema.Types.ObjectId, ref: "bibliografia"},
-    fecha_prestamo: Date,
+    fecha_inicial: Date,
+    fecha_final: Date,
     estado: Boolean
 })
 

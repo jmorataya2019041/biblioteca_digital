@@ -2,7 +2,6 @@
 const Usuario = require("../models/usuario.model");
 const bcrypt = require("bcrypt-nodejs");
 const Prestamo = require("../models/prestamo.model")
-const Historial = require("../models/historial.model")
 const Bibliografia = require("../models/bibliografia.model")
 const Datos_Revista = require("../models/datos_revista.model")
 
@@ -131,7 +130,6 @@ async function bibliografias(req, res){
 async function prestarBibliografia(req, res){
     var params = req.body;
     var prestamoModel = new Prestamo();
-    var historialModel = new Historial();
     
     var prestadosActual = await Prestamo.find({usuario: req.user.sub}) // ---> Se obtiene la cantidad permitado de préstamos para el usuario
     
@@ -147,7 +145,8 @@ async function prestarBibliografia(req, res){
 
             prestamoModel.usuario = req.user.sub;
             prestamoModel.bibliografia = params.bibliografia;
-            prestamoModel.fecha_prestamo = new Date(Date.now());
+            prestamoModel.fecha_inicial = new Date(Date.now());
+            prestamoModel.fecha_final = null;
             prestamoModel.estado = false;
 
             await Prestamo.find({$or: [
@@ -164,21 +163,6 @@ async function prestarBibliografia(req, res){
                         }else if(!prestamo){
                             return res.status(500).send({ mensaje: "No se ha podido almacenar el préstamo"})
                         }else{
-                            historialModel.prestamo = prestamo._id;
-                            historialModel.usuario = req.user.sub;
-                            historialModel.bibliografia = params.bibliografia;
-                            historialModel.fecha_inicial = new Date(Date.now());
-                            historialModel.fecha_final = null;
-                            historialModel.estado = false;
-                            historialModel.save((err, historial) => {
-                                if(err){
-                                    console.log("Error en la petición al almacenar el historial");
-                                }else if(!historial){
-                                    console.log("No se ha podido almacenar el historial");
-                                }else{
-                                    console.log(historial);
-                                }
-                            });
                             return res.json(prestamo)
                         }
                     })
@@ -202,19 +186,6 @@ async function misPrestamos(req, res){
             return res.status(500).send({ mensaje: "No se ha podido obtener los préstamos"})
         }else{
             return res.status(200).send({misPrestamos})
-        }
-    })
-}
-
-//Función para ver mi historial
-async function miHistorial(req, res){
-    await Historial.find({usuario: req.user.sub}).populate('usuario bibliografia').exec((err, miHistorial) => {
-        if(err){
-            return res.status(500).send({ mensaje: "Error en la petición"})
-        }else if(!miHistorial){
-            return res.status(500).send({ mensaje: "No se ha podido obtener su historial"})
-        }else{
-            return res.status(200).send({miHistorial})
         }
     })
 }
