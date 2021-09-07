@@ -127,6 +127,98 @@ async function bibliografias(req, res){
     })
 }
 
+//Función para prestar una bibliografía
+async function prestarBibliografia(req, res){
+    var params = req.body;
+    var prestamoModel = new Prestamo();
+    var historialModel = new Historial();
+    
+    var prestadosActual = await Prestamo.find({usuario: req.user.sub}) // ---> Se obtiene la cantidad permitado de préstamos para el usuario
+    
+    if(prestadosActual.length > 10){
+        return res.status(500).send({mensaje: "No tiene espacio para otro préstamo"})
+    }else{
+        if(params.bibliografia){
+
+            var disponiblesLibro = await Bibliografia.findById(params.bibliografia) // ---> Se obtiene la cantidad de disponibles del libro
+            if(disponiblesLibro.disponibles === 0){
+                return res.status(200).send({mensaje: "El libro no está disponible"})
+            }
+
+            prestamoModel.usuario = req.user.sub;
+            prestamoModel.bibliografia = params.bibliografia;
+            prestamoModel.fecha_prestamo = new Date(Date.now());
+            prestamoModel.estado = false;
+
+            await Prestamo.find({$or: [
+                {bibliografia: prestamoModel.bibliografia}
+            ]}).exec((err, prestamo) => { 
+                if(err){
+                    return res.status(500).send({ mensaje: "Error en la petición" })
+                }else if(prestamo && prestamo.length >= 1){
+                    return res.status(500).send({mensaje: "El libro ya ha sido prestado"})
+                }else{
+                    prestamoModel.save((err,prestamo) => {
+                        if(err){
+                            return res.status(500).send({ mensaje: "Error en la petición al guardar"})
+                        }else if(!prestamo){
+                            return res.status(500).send({ mensaje: "No se ha podido almacenar el préstamo"})
+                        }else{
+                            historialModel.prestamo = prestamo._id;
+                            historialModel.usuario = req.user.sub;
+                            historialModel.bibliografia = params.bibliografia;
+                            historialModel.fecha_inicial = new Date(Date.now());
+                            historialModel.fecha_final = null;
+                            historialModel.estado = false;
+                            historialModel.save((err, historial) => {
+                                if(err){
+                                    console.log("Error en la petición al almacenar el historial");
+                                }else if(!historial){
+                                    console.log("No se ha podido almacenar el historial");
+                                }else{
+                                    console.log(historial);
+                                }
+                            });
+                            return res.json(prestamo)
+                        }
+                    })
+                }
+            })
+            await Usuario.findOneAndUpdate({_id: req.user.sub}, {$inc: {n_prestamos: + 1}});
+            await Bibliografia.findOneAndUpdate({_id: params.bibliografia}, {$inc: {disponibles: - 1}})
+        }else{
+            return res.status(500).send({ mensaje: "No ha completado todos los parámetros"})
+        }
+    }
+}
+
+//Función para ver mis préstamos
+async function misPrestamos(req, res){
+    await Prestamo.find({usuario: req.user.sub}).populate('usuario bibliografia').exec((err, misPrestamos) => {
+        if(err){
+            console.log(err);
+            return res.status(500).send({ mensaje: "Error en la petición"})
+        }else if(!misPrestamos){
+            return res.status(500).send({ mensaje: "No se ha podido obtener los préstamos"})
+        }else{
+            return res.status(200).send({misPrestamos})
+        }
+    })
+}
+
+//Función para ver mi historial
+async function miHistorial(req, res){
+    await Historial.find({usuario: req.user.sub}).populate('usuario bibliografia').exec((err, miHistorial) => {
+        if(err){
+            return res.status(500).send({ mensaje: "Error en la petición"})
+        }else if(!miHistorial){
+            return res.status(500).send({ mensaje: "No se ha podido obtener su historial"})
+        }else{
+            return res.status(200).send({miHistorial})
+        }
+    })
+}
+
 module.exports = {
     registro,
     miUsuario,
@@ -134,5 +226,8 @@ module.exports = {
     eliminarMiUsuario,
     obtenerLibros,
     obtenerRevistas,
-    bibliografias
+    bibliografias,
+    prestarBibliografia,
+    misPrestamos,
+    miHistorial
 }

@@ -3,6 +3,8 @@ const Usuario = require("../models/usuario.model");
 const Tipo_Bibliografia = require("../models/tipo_bibliografia.model")
 const Bibliografia = require("../models/bibliografia.model")
 const Datos_Revista = require("../models/datos_revista.model")
+const Prestamo = require("../models/prestamo.model")
+const Historial = require("../models/historial.model")
 const bcrypt = require("bcrypt-nodejs");
 
 //Función para crear al administrador
@@ -411,6 +413,41 @@ async function eliminarRevista(req, res){
     }
 }
 
+//Función para ver los préstamos de cualquier usuario
+async function prestamoUsuario(req, res){
+    if(req.user.rol === "admin"){
+        var idUsuario = req.params.idUsuario;
+        await Prestamo.find({usuario: idUsuario}).populate('usuario bibliografia').exec((err, prestamos) => {
+            if(err){
+                return res.status(500).send({ mensaje: "Error en la petición"})
+            }else if(!prestamos){
+                return res.status(500).send({ mensaje: "No se ha podido obtener los préstamos del usuario"})
+            }else{
+                return res.status(200).send({prestamos})
+            }
+        })
+    }else{
+        return res.status(500).send({ mensaje: "No tiene el rol de autorización"})
+    }
+}
+
+//Función para ver todos los préstamos
+async function prestamos(req, res){
+    if(req.user.rol === "admin"){
+        await Prestamo.find().populate('usuario bibliografia').exec((err, prestamos) => {
+            if(err){
+                return res.status(500).send({ mensaje: "Error en la petición"})
+            }else if(!prestamos){
+                return res.status(500).send({ mensaje: "No se ha podido obtener los préstamos"})
+            }else{
+                return res.status(200).send({prestamos})
+            }
+        })
+    }else{
+        return res.status(500).send({ mensaje: "No tiene el rol de autorización"})
+    }
+}
+
 module.exports = {
     adminDefault,
     agregarUsuario,
@@ -425,5 +462,7 @@ module.exports = {
     eliminarLibro,
     agregarRevista,
     editarRevista,
-    eliminarRevista
+    eliminarRevista,
+    prestamoUsuario,
+    prestamos
 }
