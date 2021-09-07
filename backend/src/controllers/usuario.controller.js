@@ -196,6 +196,9 @@ async function prestarBibliografia(req, res){
 async function devolverLibro(req, res){
     var idPrestamo = req.params.idPrestamo;
     var prestamo = await Prestamo.findById(idPrestamo);
+    if(prestamo.estado === true){
+        return res.status(500).send({mensaje: "El libro ya fue devuelto"})
+    }
     if(prestamo.usuario == req.user.sub){
         await Prestamo.findByIdAndUpdate(idPrestamo, {fecha_final: new Date(Date.now()), estado: true}, {new: true}, (err, libroDevuelto) => {
             if(err){
