@@ -131,7 +131,7 @@ async function prestarBibliografia(req, res){
     var params = req.body;
     var prestamoModel = new Prestamo();
     
-    var prestadosActual = await Prestamo.find({usuario: req.user.sub}) // ---> Se obtiene la cantidad permitado de préstamos para el usuario
+    var prestadosActual = await Prestamo.find({usuario: req.user.sub, estado: false}) // ---> Se obtiene la cantidad permitado de préstamos para el usuario
     
     if(prestadosActual.length > 10){
         return res.status(500).send({mensaje: "No tiene espacio para otro préstamo"})
@@ -149,13 +149,13 @@ async function prestarBibliografia(req, res){
             prestamoModel.fecha_final = null;
             prestamoModel.estado = false;
 
-            await Prestamo.find({$or: [
+            await Prestamo.find({usuario: req.user.sub, $or: [
                 {bibliografia: prestamoModel.bibliografia}
             ]}).exec((err, prestamo) => { 
                 if(err){
                     return res.status(500).send({ mensaje: "Error en la petición" })
                 }else if(prestamo && prestamo.length >= 1){
-                    return res.status(500).send({mensaje: "El libro ya ha sido prestado"})
+                    return res.status(500).send({mensaje: "Usted ya ha prestado esta bibliografía"})
                 }else{
                     prestamoModel.save((err,prestamo) => {
                         if(err){
@@ -163,17 +163,38 @@ async function prestarBibliografia(req, res){
                         }else if(!prestamo){
                             return res.status(500).send({ mensaje: "No se ha podido almacenar el préstamo"})
                         }else{
-                            return res.json(prestamo)
+                            Usuario.findOneAndUpdate({_id: req.user.sub}, {$inc: {n_prestamos: + 1}}, {new: true}, (err, usuario) => {
+                                if(err){
+                                    return res.status(500).send({ mensaje: "Error en la petición del usuario"})
+                                }else if(!usuario){
+                                    return res.status(500).send({ mensaje: "No se ha podido editar el usuario"})
+                                }else{
+                                    console.log(usuario);
+                                }
+                            });
+                            Bibliografia.findByIdAndUpdate(disponiblesLibro._id, {$inc: {disponibles: - 1}}, {new: true}, (err, libro) => {
+                                if(err){
+                                    return res.status(500).send({ mensaje: "Error en la petición del libro"})
+                                }else if(!libro){
+                                    return res.status(500).send({ mensaje: "No se ha podido editar el libro"})
+                                }else{
+                                    console.log(libro);
+                                }
+                            })
+                            return res.status(200).send({prestamo})
                         }
                     })
                 }
             })
-            await Usuario.findOneAndUpdate({_id: req.user.sub}, {$inc: {n_prestamos: + 1}});
-            await Bibliografia.findOneAndUpdate({_id: params.bibliografia}, {$inc: {disponibles: - 1}})
         }else{
             return res.status(500).send({ mensaje: "No ha completado todos los parámetros"})
         }
     }
+}
+
+//Función para devolver la bibliografia
+async function devolverLibro(req, res){
+
 }
 
 //Función para ver mis préstamos pendientes
@@ -190,6 +211,19 @@ async function misPrestamos(req, res){
     })
 }
 
+//Función para obtener mi historial
+async function miHistorial(req, res){
+    await Prestamo.find({usuario: req.user.sub}).populate('usuario bibliografia').exec((err, historial) => {
+        if(err){
+            return res.status(500).send({ mensaje: "Error en la petición"})
+        }else if(!historial){
+            return res.status(500).send({ mensaje: "No se ha podido obtener el historial"})
+        }else{
+            return res.status(200).send({historial})
+        }
+    })
+}
+
 module.exports = {
     registro,
     miUsuario,
@@ -199,5 +233,7 @@ module.exports = {
     obtenerRevistas,
     bibliografias,
     prestarBibliografia,
-    misPrestamos
+    devolverLibro,
+    misPrestamos,
+    miHistorial
 }
