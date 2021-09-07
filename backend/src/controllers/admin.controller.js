@@ -4,7 +4,6 @@ const Tipo_Bibliografia = require("../models/tipo_bibliografia.model")
 const Bibliografia = require("../models/bibliografia.model")
 const Datos_Revista = require("../models/datos_revista.model")
 const Prestamo = require("../models/prestamo.model")
-const Historial = require("../models/historial.model")
 const bcrypt = require("bcrypt-nodejs");
 
 //Función para crear al administrador

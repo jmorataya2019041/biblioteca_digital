@@ -176,9 +176,9 @@ async function prestarBibliografia(req, res){
     }
 }
 
-//Función para ver mis préstamos
+//Función para ver mis préstamos pendientes
 async function misPrestamos(req, res){
-    await Prestamo.find({usuario: req.user.sub}).populate('usuario bibliografia').exec((err, misPrestamos) => {
+    await Prestamo.find({usuario: req.user.sub, estado: false}).populate('usuario bibliografia').exec((err, misPrestamos) => {
         if(err){
             console.log(err);
             return res.status(500).send({ mensaje: "Error en la petición"})
@@ -199,6 +199,5 @@ module.exports = {
     obtenerRevistas,
     bibliografias,
     prestarBibliografia,
-    misPrestamos,
-    miHistorial
+    misPrestamos
 }
