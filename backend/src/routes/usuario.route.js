@@ -15,5 +15,6 @@ api.post('/prestarBibliografia', md_autenticacion.ensureAuth, usuarioController.
 api.get('/devolverLibro/:idPrestamo', md_autenticacion.ensureAuth, usuarioController.devolverLibro)
 api.get('/misPrestamos', md_autenticacion.ensureAuth, usuarioController.misPrestamos)
 api.get('/miHistorial', md_autenticacion.ensureAuth, usuarioController.miHistorial)
+api.get('/buscarLibro/:term', usuarioController.buscarLibro)
 
 module.exports = api;

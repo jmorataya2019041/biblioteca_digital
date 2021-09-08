@@ -251,6 +251,23 @@ async function miHistorial(req, res){
     })
 }
 
+//Función para buscar un libro por su nombre
+async function buscarLibro(req, res){
+    try{
+        var texto = req.params.term;
+
+        var libro = await Bibliografia.aggregate([
+            {
+                $match: { titulo: { $regex: texto, $options: 'i' } }
+            }
+        ])
+
+        return res.status(200).send({Libro: libro})
+    } catch(error){
+        return res.status(500).send({error})
+    }
+}
+
 module.exports = {
     registro,
     miUsuario,
@@ -262,5 +279,6 @@ module.exports = {
     prestarBibliografia,
     devolverLibro,
     misPrestamos,
-    miHistorial
+    miHistorial,
+    buscarLibro
 }
