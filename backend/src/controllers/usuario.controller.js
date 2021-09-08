@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt-nodejs");
 const Prestamo = require("../models/prestamo.model")
 const Bibliografia = require("../models/bibliografia.model")
 const Datos_Revista = require("../models/datos_revista.model")
+const jwt = require("jwt-simple");
 
 //Función para registrarse
 async function registro(req, res){
@@ -268,6 +269,12 @@ async function buscarLibro(req, res){
     }
 }
 
+//Función para obtener la identidad
+async function obtenerIdentidad(req, res){
+    let x = jwt.decode(req.headers["authorization"], "Biblioteca_Digital")
+    return res.status(200).send({x})
+}
+
 module.exports = {
     registro,
     miUsuario,
@@ -280,5 +287,6 @@ module.exports = {
     devolverLibro,
     misPrestamos,
     miHistorial,
-    buscarLibro
+    buscarLibro,
+    obtenerIdentidad
 }
