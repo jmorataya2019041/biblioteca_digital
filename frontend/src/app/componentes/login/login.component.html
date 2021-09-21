@@ -1,0 +1,35 @@
+<section>
+  <div class="imgBx">
+    <img src="assets/login.png" alt="logoLogin">
+  </div>
+  <div class="contentBx">
+    <div class="formBx">
+      <div class="text-center">
+        <img src="assets/icono.ico" alt="icono" style="width: 30%;">
+      </div>
+      <h2>Login</h2>
+      <form (ngSubmit)="login()" method="POST" class="was-validated" ngNativeValidate>
+        <div class="inputBx">
+          <span>Usuario</span>
+          <input [(ngModel)]="user.usuario" name="usuario" class="form-control is-invalid" type="text" minlength="3" maxlength="20" required placeholder="Ingrese su usuario">
+        </div>
+        <div class="inputBx">
+          <span>Contraseña</span>
+          <input [(ngModel)]="user.password" name="password" class="form-control is-invalid" type="password" minlength="3" maxlength="20" required placeholder="Ingrese su contraseña">
+        </div>
+        <div class="inputBx">
+          <input type="submit" value="Ingresar" name="">
+        </div>
+        <div class="inputBx">
+          <p style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Aún no te haz registrado? <a style="color: blue; cursor: pointer; text-decoration: none;" routerLink="/registro">Crea una cuenta</a></p>
+        </div>
+      </form>
+      <h4>Visitanos por nuestras redes sociales</h4>
+      <ul class="sci">
+        <a href="https://www.facebook.com/kinal.gt/" target="_blank" style="text-decoration: none;"><li><i class="fab fa-facebook"></i></li></a>
+        <a href="https://www.kinal.org.gt/" target="_blank" style="text-decoration: none;"><li><i class="far fa-building"></i></li></a>
+        <a href="https://gt.linkedin.com/company/kinal.gt" target="_blank" style="text-decoration: none;"><li><i class="fab fa-linkedin"></i></li></a>
+      </ul>
+    </div>
+  </div>
+</section>

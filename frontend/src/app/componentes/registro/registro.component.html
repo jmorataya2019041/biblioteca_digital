@@ -1,0 +1,45 @@
+<section>
+  <div class="imgBx">
+    <img src="assets/login.png" alt="logoLogin">
+  </div>
+  <div class="contentBx">
+    <div class="formBx">
+      <div class="text-center">
+        <img src="assets/icono.ico" alt="icono" style="width: 20%;">
+      </div>
+      <h2>Crea Una Cuenta</h2>
+      <form (ngSubmit)="registrar()" method="POST" class="was-validated" ngNativeValidate>
+        <div class="inputBx">
+          <span>CUI o Carne</span>
+          <input [(ngModel)]="usuario.CUI" name="CUI" class="form-control is-invalid" type="number" minlength="7" maxlength="13" required placeholder="Ingrese su CUI o carne">
+        </div>
+        <div class="inputBx">
+          <span>Nombres</span>
+          <input [(ngModel)]="usuario.nombre" name="nombre" class="form-control is-invalid" type="text" minlength="5" required placeholder="Ingrese sus nombres">
+        </div>
+        <div class="inputBx">
+          <span>Apellidos</span>
+          <input [(ngModel)]="usuario.apellido" name="apellido" class="form-control is-invalid" type="text" minlength="5" required placeholder="Ingrese sus apellidos">
+        </div>
+        <div class="inputBx">
+          <span>Usuario</span>
+          <input [(ngModel)]="usuario.usuario" name="usuario" class="form-control is-invalid" type="text" minlength="3" maxlength="10" required placeholder="Ingrese su usuario">
+        </div>
+        <div class="inputBx">
+          <span>E-mail</span>
+          <input [(ngModel)]="usuario.email" name="email" class="form-control is-invalid" type="email" minlength="3" maxlength="20" required placeholder="Ingrese su email">
+        </div>
+        <div class="inputBx">
+          <span>Contraseña</span>
+          <input [(ngModel)]="usuario.password" name="password" class="form-control is-invalid" type="password" minlength="3" maxlength="20" required placeholder="Ingrese su contraseña">
+        </div>
+        <div class="inputBx">
+          <input type="submit" value="Crear Cuenta">
+        </div>
+        <div class="inputBx">
+          <p style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Ya tienes una cuenta? <a style="color: blue; cursor: pointer; text-decoration: none;" routerLink="/login">Inicia Sesión</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
