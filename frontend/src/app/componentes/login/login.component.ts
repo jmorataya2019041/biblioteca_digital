@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login/login.service';
 import Swal from 'sweetalert2';
 
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit {
     password: "",
     getToken: true
   }
-  constructor(private TitleService: Title, private loginService: LoginService){
+  constructor(private TitleService: Title, private loginService: LoginService, private router: Router){
     this.TitleService.setTitle("Biblioteca Digital | Login")
   }
   ngOnInit(): void {
@@ -26,7 +27,8 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this.user).subscribe(
       res => {
         sessionStorage.setItem("authorization", res.token);
-        Swal.fire("Ingreso Exitoso!", "Cuando terminas un buen libro no se acaba. Se esconde adentro tuyo.", "success")
+        Swal.fire("Ingreso Exitoso!", "Hola " +this.user.usuario+", recuerda que: 'Cuando terminas un buen libro no se acaba. Se esconde adentro tuyo.'", "success")
+        this.router.navigate(["/home"])
       },
       err => {
         switch (err.error.mensaje) {
