@@ -26,12 +26,12 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this.user).subscribe(
       res => {
         sessionStorage.setItem("authorization", res.token);
-        Swal.fire("Ingreso Exitoso!", "Disfrute nuestra aplicación a lo máximo", "success")
+        Swal.fire("Ingreso Exitoso!", "Cuando terminas un buen libro no se acaba. Se esconde adentro tuyo.", "success")
       },
       err => {
         switch (err.error.mensaje) {
           case "Error en la petición":
-            Swal.fire("Ingreso Incorrecto", "Hubo un error en la petición, intente de nuevo", "error")
+            Swal.fire("Ingreso Incorrecto", "Hubo un error en la petición, intente de nuevo.", "error")
             this.user = {
               usuario: "",
               password: "",
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
             }
             break;
           case "La contraseña no coincide":
-            Swal.fire("Ingreso Incorrecto", "La contraseña no coincide, intente de nuevo", "error")
+            Swal.fire("Ingreso Incorrecto", "La contraseña no coincide, intente de nuevo.", "error")
             this.user = {
               usuario: "",
               password: "",
@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
             }
             break;
           case "El usuario no existe":
-            Swal.fire("Ingreso Incorrecto", "Usuario Innexistente", "error")
+            Swal.fire("Ingreso Incorrecto", "Usuario Innexistente.", "error")
             this.user = {
               usuario: "",
               password: "",
