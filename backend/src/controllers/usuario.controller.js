@@ -272,7 +272,7 @@ async function buscarLibro(req, res){
 //Función para obtener la identidad
 async function obtenerIdentidad(req, res){
     let x = jwt.decode(req.headers["authorization"], "Biblioteca_Digital")
-    return res.status(200).send({x})
+    res.json(x);
 }
 
 module.exports = {
