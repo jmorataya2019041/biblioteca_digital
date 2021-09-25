@@ -1,0 +1,41 @@
+<app-navbar></app-navbar>
+<div class="container col-8" style="margin-top: 60px;">
+  <div class="input-group mb-3">
+    <span class="input-group-text"><i class="fas fa-search"></i></span>
+    <input type="text" class="form-control" placeholder="Busca por CUI, nombre, apellido...">
+  </div>
+  <button class="mb-3 btn btn-outline-success"><i class="fas fa-book"></i> Agregar Libro</button>
+  <table class="table" *ngIf="libros.length >= 1">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">Título</th>
+        <th scope="col">Autor</th>
+        <th scope="col">Edición</th>
+        <th scope="col">Disponibles</th>
+        <th scope="col">Copias</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let l of libros">
+        <th>{{l.titulo}}</th>
+        <td>{{l.autor}}</td>
+        <td>{{l.edicion}}</td>
+        <td>{{l.disponibles}}</td>
+        <td>{{l.copias}}</td>
+        <td>
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-outline-primary"><i class="far fa-eye"></i> Ver</button>
+            <button type="button" class="btn btn-outline-primary"><i class="far fa-edit"></i> Editar</button>
+            <button type="button" class="btn btn-outline-primary"><i class="far fa-address-book"></i> Prestar</button>
+            <button type="button" class="btn btn-outline-primary"><i class="far fa-trash-alt"></i> Eliminar</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="text-align: center;" *ngIf="libros.length === 0">
+    <img style="width: 60%;" src="assets/sin datos.jpg" alt="vacio">
+    <h3>No contiene ningún prestamo</h3>
+  </div>
+</div>

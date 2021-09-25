@@ -1,0 +1,42 @@
+<app-navbar></app-navbar>
+<div class="container col-10" style="margin-top: 60px;">
+  <div class="input-group mb-3">
+    <span class="input-group-text"><i class="fas fa-search"></i></span>
+    <input type="text" class="form-control" placeholder="Busca por CUI, nombre, apellido...">
+  </div>
+  <button class="mb-3 btn btn-outline-success"><i class="fas fa-user-plus"></i> Agregar Usuario</button>
+  <table class="table" *ngIf="datos === 'lleno'">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">CUI o Carne</th>
+        <th scope="col">Nombres</th>
+        <th scope="col">Apellidos</th>
+        <th scope="col">E-mail</th>
+        <th scope="col">Usuario</th>
+        <th scope="col">Rol</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let users of usuarios">
+        <th>{{users.CUI}}</th>
+        <td>{{users.nombre}}</td>
+        <td>{{users.apellido}}</td>
+        <td>{{users.email}}</td>
+        <td>{{users.usuario}}</td>
+        <td>{{users.rol}}</td>
+        <td>
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-outline-primary"><i class="far fa-eye"></i> Ver</button>
+            <button type="button" class="btn btn-outline-primary"><i class="fas fa-user-edit"></i> Editar</button>
+            <button type="button" class="btn btn-outline-primary"><i class="fas fa-user-times"></i> Eliminar</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="text-align: center;" *ngIf="datos === 'vacio'">
+    <img style="width: 60%;" src="assets/sin datos.jpg" alt="vacio">
+    <h3>No contiene ningún prestamo</h3>
+  </div>
+</div>

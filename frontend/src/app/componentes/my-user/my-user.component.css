@@ -1,0 +1,46 @@
+.header{
+  text-align: center;
+  height: 300px;
+  padding: 12px;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1440' height='560' preserveAspectRatio='none' viewBox='0 0 1440 560'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1029%26quot%3b)' fill='none'%3e%3crect width='1440' height='560' x='0' y='0' fill='rgba(40%2c 99%2c 161%2c 1)'%3e%3c/rect%3e%3cpath d='M0%2c441.443C81.085%2c437.023%2c136.713%2c361.792%2c199.114%2c309.827C254.001%2c264.12%2c304.626%2c216.997%2c342.352%2c156.347C384.631%2c88.375%2c437.971%2c17.811%2c430.316%2c-61.87C422.589%2c-142.304%2c364.964%2c-210.975%2c302.177%2c-261.838C244.977%2c-308.174%2c169.462%2c-316.736%2c97.363%2c-331.589C31.017%2c-345.257%2c-33.763%2c-350.336%2c-101.288%2c-344.955C-184.64%2c-338.313%2c-276.969%2c-348.814%2c-342.244%2c-296.556C-410.238%2c-242.121%2c-456.187%2c-151.819%2c-451.145%2c-64.865C-446.242%2c19.686%2c-360.136%2c71.931%2c-316.661%2c144.614C-279.26%2c207.143%2c-266.73%2c282.495%2c-213.572%2c332.324C-154.04%2c388.127%2c-81.476%2c445.885%2c0%2c441.443' fill='%231a4069'%3e%3c/path%3e%3cpath d='M1440 994.935C1523.315 1001.4200000000001 1600.816 963.606 1676.189 927.518 1761.012 886.905 1861.843 855.9200000000001 1904.933 772.328 1948.343 688.115 1924.79 585.267 1899.708 493.904 1876.748 410.27099999999996 1823.703 342.24199999999996 1768.499 275.354 1711.998 206.89499999999998 1657.951 131.865 1574.948 100.40899999999999 1489.009 67.83999999999997 1389.638 64.238 1304.824 99.632 1223.29 133.65800000000002 1165.186 208.68900000000002 1125.88 287.813 1091.8519999999999 356.312 1101.695 434.697 1100.385 511.171 1099.241 577.986 1097.751 643.276 1118.7060000000001 706.73 1141.6109999999999 776.088 1171.943 843.727 1226.315 892.5 1286.33 946.3340000000001 1359.621 988.678 1440 994.935' fill='%234086d0'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1029'%3e%3crect width='1440' height='560' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e");
+}
+.avatar{
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+.user-name{
+  margin-top: 14px;
+  color: white;
+}
+.social{
+  list-style: none;
+  text-align: center;
+  margin-top: 15px;
+  padding: 0;
+}
+.social li{
+  display: inline-block;
+  margin: 5px;
+}
+
+.datos{
+  list-style: none;
+  text-align: center;
+  margin-top: 5px;
+  padding: 0;
+}
+.datos li{
+  display: inline-block;
+  margin: 10px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 18px;
+}
+.datos li a{
+  text-decoration: none;
+  color: #000;
+  cursor: pointer;
+}
+.datos li a:hover{
+  color: #4b6fc3;
+}

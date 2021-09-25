@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this.user).subscribe(
       res => {
         sessionStorage.setItem("authorization", res.token);
-        Swal.fire("Ingreso Exitoso!", "Hola " +this.user.usuario+", recuerda que: 'Cuando terminas un buen libro no se acaba. Se esconde adentro tuyo.'", "success")
+        Swal.fire("Ingreso Exitoso!", "Hola " +this.user.usuario+", recuerda que: Cuando terminas un buen libro no se acaba. Se esconde adentro tuyo...", "success")
         this.router.navigate(["/home"])
       },
       err => {

@@ -1,7 +1,7 @@
 .color{
   background: #1d168a;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #7fc3fa, #4b6fc3  , #1d168a);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to left, #7fc3fa, #4b6fc3, #1d168a); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to left, #7fc3fa, #4b6fc3, #1d168a); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+*/
 }
 
 .container-1{
@@ -60,49 +60,30 @@
   background: #fff;
 }
 
-/*Foooter*/
-.grid-layout-2 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+.perfil{
+  color: #000;
+}
+.perfil:hover{
+  color: #1d168a;
 }
 
-.footer-icon {
-  color: white;
-  font-size: 25px;
-  margin-right: 10px;
+.prestamos{
+  color: #000;
+}
+.prestamos:hover{
+  color: #EB680E;
 }
 
-footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+.historial{
+  color: #000;
+}
+.historial:hover{
+  color: #24900C;
 }
 
-#footer-left {
-  border-right: 2px dotted white;
-  padding: 0 9px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+.logout{
+  color: #000;
 }
-
-#footer-right {
-  padding: 10px 20px;
-}
-
-#footer-logo {
-  width: 110px
-}
-
-@media screen and (max-width: 880px) {
-  #footer-left {
-      border-right: none;
-      justify-content: center;
-  }
-  #footer-right {
-      padding-top: 20px;
-      display: flex;
-      justify-content: center;
-  }
+.logout:hover{
+  color: #D50909;
 }

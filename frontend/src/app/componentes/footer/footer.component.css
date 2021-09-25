@@ -1,0 +1,46 @@
+/*Foooter*/
+.grid-layout-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.footer-icon {
+  color: white;
+  font-size: 25px;
+  margin-right: 10px;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+#footer-left {
+  border-right: 2px dotted white;
+  padding: 0 9px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+#footer-right {
+  padding: 10px 20px;
+}
+
+#footer-logo {
+  width: 110px
+}
+
+@media screen and (max-width: 880px) {
+  #footer-left {
+      border-right: none;
+      justify-content: center;
+  }
+  #footer-right {
+      padding-top: 20px;
+      display: flex;
+      justify-content: center;
+  }
+}

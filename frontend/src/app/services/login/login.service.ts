@@ -22,4 +22,26 @@ export class LoginService {
    registro(user: any){
      return this.http.post(this.url + '/registro', user)
    }
+
+   //Función para obtener la identidad del usuario
+   obtenerIdentidad(){
+     if(!sessionStorage.getItem("authorization")) return;
+
+     const headers = new HttpHeaders();
+     const allHeaders = headers.set("authorization", sessionStorage.getItem("authorization"))
+     return this.http.get<any>(this.url + '/obtenerIdentidad', {headers: allHeaders})
+   }
+
+   //Función para cerrar sesión
+   logout(){
+     if(sessionStorage.getItem("authorization")){
+       sessionStorage.removeItem("authorization");
+       this.router.navigate(['/'])
+     }
+   }
+
+   //Función para saber si está logeado
+   loggedIn(): Boolean{
+     return !!sessionStorage.getItem("authorization")
+   }
 }

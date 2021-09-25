@@ -1,0 +1,28 @@
+<app-navbar></app-navbar>
+<div class="container col-8" style="margin-top: 60px;">
+  <h3>Mis Préstamos</h3>
+  <table class="table" *ngIf="prestamos.length >= 1">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">Libro</th>
+        <th scope="col">Autor</th>
+        <th scope="col">Edición</th>
+        <th scope="col">Fecha Préstamo</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let prestamo of prestamos">
+        <th>{{prestamo.bibliografia.titulo}}</th>
+        <td>{{prestamo.bibliografia.autor}}</td>
+        <td>{{prestamo.bibliografia.edicion}}</td>
+        <td>{{prestamo.fecha_inicial | date: "dd/MM/yyyy - hh:mm a"}}</td>
+        <td><button class="btn btn-outline-success">Devolver</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="prestamos.length === 0" style="text-align: center;">
+    <img style="width: 60%;" src="assets/sin datos.jpg" alt="vacio">
+    <h3>No contiene ningún prestamo</h3>
+  </div>
+</div>

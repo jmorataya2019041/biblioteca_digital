@@ -1,0 +1,29 @@
+<app-navbar></app-navbar>
+<div class="container col-8" style="margin-top: 60px;">
+  <h3>Mi Historial</h3>
+  <table class="table" *ngIf="historial.length >= 1">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">Libro</th>
+        <th scope="col">Autor</th>
+        <th scope="col">Edición</th>
+        <th scope="col">Fecha Préstamo</th>
+        <th scope="col">Fecha Devolución</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let h of historial">
+        <th>{{h.bibliografia.titulo}}</th>
+        <td>{{h.bibliografia.autor}}</td>
+        <td>{{h.bibliografia.edicion}}</td>
+        <td>{{h.fecha_inicial | date: "dd/MM/yyyy - hh:mm a"}}</td>
+        <td *ngIf="h.fecha_final === null"><b>Libro aún no devuelto</b></td>
+        <td>{{h.fecha_final | date: "dd/MM/yyyy - hh:mm a"}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="text-align: center;" *ngIf="historial.length === 0">
+    <img style="width: 60%;" src="assets/sin datos.jpg" alt="vacio">
+    <h3>No contiene ningún prestamo</h3>
+  </div>
+</div>
