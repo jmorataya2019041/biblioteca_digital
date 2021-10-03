@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AllUserComponent } from './componentes/all-user/all-user.component';
+import { BusquedasComponent } from './componentes/busquedas/busquedas.component';
 import { HomeComponent } from './componentes/home/home.component';
 import { LibroComponent } from './componentes/libro/libro.component';
 import { LoginComponent } from './componentes/login/login.component';
@@ -11,6 +12,10 @@ import { RegistroComponent } from './componentes/registro/registro.component';
 import { RevistaComponent } from './componentes/revista/revista.component';
 
 const routes: Routes = [
+  {
+    path: 'busqueda/:term',
+    component: BusquedasComponent
+  },
   {
     path: 'libros',
     component: LibroComponent

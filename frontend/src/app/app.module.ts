@@ -15,6 +15,7 @@ import { MiHistorialComponent } from './componentes/mi-historial/mi-historial.co
 import { LibroComponent } from './componentes/libro/libro.component';
 import { RevistaComponent } from './componentes/revista/revista.component';
 import { AllUserComponent } from './componentes/all-user/all-user.component';
+import { BusquedasComponent } from './componentes/busquedas/busquedas.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { AllUserComponent } from './componentes/all-user/all-user.component';
     MiHistorialComponent,
     LibroComponent,
     RevistaComponent,
-    AllUserComponent
+    AllUserComponent,
+    BusquedasComponent
   ],
   imports: [
     BrowserModule,

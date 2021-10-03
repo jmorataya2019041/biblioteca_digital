@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login/login.service';
 
 @Component({
@@ -9,6 +9,7 @@ import { LoginService } from 'src/app/services/login/login.service';
 })
 export class NavbarComponent implements OnInit {
   role = '';
+  @ViewChild('searchInput') searchInput!: ElementRef;
 
   constructor(public loginService: LoginService) { }
 
@@ -26,5 +27,7 @@ export class NavbarComponent implements OnInit {
       }
     )
   }
+
+  search
 
 }
