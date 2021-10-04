@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login/login.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class NavbarComponent implements OnInit {
   role = '';
   @ViewChild('searchInput') searchInput!: ElementRef;
 
-  constructor(public loginService: LoginService) { }
+  constructor(public loginService: LoginService, private router: Router) { }
 
   ngOnInit(): void {
     this.obtenerIdentidad();
@@ -28,6 +29,10 @@ export class NavbarComponent implements OnInit {
     )
   }
 
-  search
+  search(value: String){
+    const searchTerm = value.trim();
+    if(searchTerm.length > 0) this.router.navigate(['/busqueda/',searchTerm]);
+    this.searchInput.nativeElement.value = '';
+  }
 
 }

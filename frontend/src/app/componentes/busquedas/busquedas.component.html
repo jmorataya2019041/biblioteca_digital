@@ -1,1 +1,7 @@
-<p>busquedas works!</p>
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="input-group mb-3">
+    <span class="input-group-text"><i class="fas fa-search"></i></span>
+    <input #searchInput (keydown.enter)="searchNew(searchInput.value)" type="search" class="form-control" placeholder="Search">
+  </div>
+</div>

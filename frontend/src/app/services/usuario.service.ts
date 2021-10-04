@@ -68,4 +68,9 @@ export class UsuarioService {
     return this.http.get<any>(this.url + '/obtenerRevistas')
   }
 
+  //Función para buscar libro
+  busquedaLibro(term: any){
+    return this.http.get<any>(this.url + '/buscarLibro/'+term)
+  }
+
 }

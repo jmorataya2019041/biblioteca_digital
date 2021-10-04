@@ -265,6 +265,7 @@ async function buscarLibro(req, res){
 
         return res.status(200).send({Libro: libro})
     } catch(error){
+        console.log(error);
         return res.status(500).send({error})
     }
 }

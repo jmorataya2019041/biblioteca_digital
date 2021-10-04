@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light color">
   <div class="container-fluid">
-    <img src="assets/fundacion-kinal.png" alt="logo kinal" style="width:150px; height:60px">
+    <img routerLink='/home' src="assets/fundacion-kinal.png" alt="logo kinal" style="width:150px; height:60px; cursor: pointer;">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -17,8 +17,8 @@
             Bibliografías
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" style="cursor:pointer" routerLink="/libros">Libros</a></li>
-            <li><a class="dropdown-item" style="cursor:pointer" routerLink="/revistas">Revistas</a></li>
+            <li><a class="dropdown-item libro" style="cursor:pointer" routerLink="/libros"><i class="fas fa-book"></i> Libros</a></li>
+            <li><a class="dropdown-item revista" style="cursor:pointer" routerLink="/revistas"><i class="fab fa-leanpub"></i> Revistas</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
@@ -37,7 +37,7 @@
         <div class="box">
           <div class="container-1">
               <span class="icon"><i class="fa fa-search"></i></span>
-              <input type="search" id="search" placeholder="Search..." />
+              <input (keydown.enter)="search(searchInput.value)" #searchInput type="search" id="search" placeholder="Search..." />
           </div>
         </div>
       </form>

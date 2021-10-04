@@ -87,3 +87,17 @@
 .logout:hover{
   color: #D50909;
 }
+
+.libro{
+  color: #000;
+}
+.libro:hover{
+  color: #873600;
+}
+
+.revista{
+  color: #000;
+}
+.revista:hover{
+  color: #2874A6;
+}
