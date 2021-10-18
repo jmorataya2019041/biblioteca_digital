@@ -447,6 +447,27 @@ async function prestamos(req, res){
     }
 }
 
+//Función para buscar un usuario por texto
+async function buscarUsuario(req, res){
+    if(req.user.rol === "admin"){
+        try {
+            var texto = req.params.user;
+
+            var usuario = await Usuario.aggregate([
+                {
+                    $match: {$or: [{CUI: { $regex: texto, $options: 'i'}}, {nombre: { $regex: texto, $options: 'i' }}, {apellido: { $regex: texto, $options: 'i' }}, {usuario: { $regex: texto, $options: 'i'}}, { email: {$regex: texto, $options: 'i' }}]}
+                }
+            ])
+            return res.status(200).send({Usuario: usuario})
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send({error})
+        }
+    }else{
+        return res.status(500).send({mensaje: "No tiene el rol de autorización"})
+    }
+}
+
 module.exports = {
     adminDefault,
     agregarUsuario,
@@ -463,5 +484,6 @@ module.exports = {
     editarRevista,
     eliminarRevista,
     prestamoUsuario,
-    prestamos
+    prestamos,
+    buscarUsuario
 }

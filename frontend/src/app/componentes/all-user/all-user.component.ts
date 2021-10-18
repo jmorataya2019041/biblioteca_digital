@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AdminService } from 'src/app/services/admin.service';
 
@@ -10,7 +10,11 @@ import { AdminService } from 'src/app/services/admin.service';
 })
 export class AllUserComponent implements OnInit {
   public usuarios;
+  public buscado: String = '';
   public datos = '';
+  opcionPrueba: string = '';
+  public usuarioBuscado = [];
+  @ViewChild('userInput') userInput!: ElementRef;
 
   constructor(private titleService: Title, private adminService: AdminService) {
     this.titleService.setTitle("Biblioteca Digital | Usuarios")
@@ -18,6 +22,7 @@ export class AllUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.allUsers();
+    this.opcionPrueba = 'todos'
   }
 
   allUsers(){
@@ -29,11 +34,35 @@ export class AllUserComponent implements OnInit {
         }else if(this.usuarios.length === 0){
           this.datos = 'vacio'
         }
+        console.log(this.datos);
+
       },
       err => {
         console.error(err);
       }
     )
+  }
+
+  buscarUsuario(term){
+    this.adminService.buscarUsuario(term).subscribe(
+      res => {
+        this.usuarioBuscado = res.Usuario;
+        console.log(this.usuarioBuscado);
+        term = this.buscado;
+      },
+      error => {
+        console.error(error);
+      }
+    )
+  }
+
+  selector(opcion){
+    if(opcion === 'Buscar'){
+      this.opcionPrueba = 'buscar';
+    }else if(opcion === 'Todos'){
+      this.opcionPrueba = 'todos';
+    }
+    console.log(this.opcionPrueba);
   }
 
 }

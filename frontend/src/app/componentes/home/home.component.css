@@ -94,6 +94,43 @@
   color: #0EAFEB;
 }
 
+h2{
+  position: relative;
+}
+
+h2 span{
+  position: absolute;
+  right: 0;
+  width: 0;
+  background: #e0e0e0;
+  border-left: 1px solid #e0e0e0;
+
+  animation: maquina 3.5s alternate;
+}
+
+.nombre{
+  position: relative;
+}
+
+.nombre span{
+  position: absolute;
+  right: 0;
+  width: 0;
+  background: #3060a1;
+  border-left: 1px solid #3060a1;
+
+  animation: maquina 3.5 alternate;
+}
+
+@keyframes maquina {
+  from {
+    width: 100%;
+  }
+  to{
+    width: 0;
+  }
+}
+
 @media screen and (max-width: 880px){
   .left-home {
     padding: 40px 0;

@@ -21,4 +21,13 @@ export class AdminService {
     return this.http.get<any>(this.url + '/obtenerUsuarios', {headers: allHeaders})
   }
 
+  //Función para buscar un usuario por texto
+  buscarUsuario(user: any){
+    if(!sessionStorage.getItem("authorization")) return;
+
+    const headers = new HttpHeaders();
+    const allHeaders = headers.set("authorization", sessionStorage.getItem("authorization"))
+    return this.http.get<any>(this.url + '/buscarUsuario/'+user, {headers: allHeaders})
+  }
+
 }
