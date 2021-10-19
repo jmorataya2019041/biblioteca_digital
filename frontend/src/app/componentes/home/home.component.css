@@ -105,7 +105,7 @@ h2 span{
   background: #e0e0e0;
   border-left: 1px solid #e0e0e0;
 
-  animation: maquina 3.5s alternate;
+  animation: maquina 3.5s infinite alternate;
 }
 
 .nombre{
