@@ -17,7 +17,7 @@
         <td>{{prestamo.bibliografia.autor}}</td>
         <td>{{prestamo.bibliografia.edicion}}</td>
         <td>{{prestamo.fecha_inicial | date: "dd/MM/yyyy - hh:mm a"}}</td>
-        <td><button class="btn btn-outline-success">Devolver</button></td>
+        <td><button class="btn btn-outline-success" (click)="devolverLibro(prestamo._id)">Devolver</button></td>
       </tr>
     </tbody>
   </table>

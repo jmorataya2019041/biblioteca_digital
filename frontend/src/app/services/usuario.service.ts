@@ -73,4 +73,21 @@ export class UsuarioService {
     return this.http.get<any>(this.url + '/buscarLibro/'+term)
   }
 
+  //Función para prestar una bibliografía
+  prestarBibliografia(id: any){
+    if(!sessionStorage.getItem("authorization")) return;
+
+    const headers = new HttpHeaders();
+    const allHeaders = headers.set("authorization", sessionStorage.getItem("authorization"));
+    return this.http.get<any>(this.url + '/prestarBibliografia/'+id, {headers: allHeaders})
+  }
+
+  //Función para devolver una bibliografía
+  devolverBibliografia(id: any){
+    if(!sessionStorage.getItem("authorization")) return;
+
+    const headers = new HttpHeaders();
+    const allHeaders = headers.set("authorization", sessionStorage.getItem("authorization"))
+    return this.http.get<any>(this.url + '/devolverLibro/'+id, {headers: allHeaders})
+  }
 }

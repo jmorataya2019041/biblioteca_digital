@@ -129,7 +129,7 @@ async function bibliografias(req, res){
 
 //Función para prestar una bibliografía
 async function prestarBibliografia(req, res){
-    var params = req.body;
+    var idBibliografia = req.params.idBibliografia;
     var prestamoModel = new Prestamo();
     
     var prestadosActual = await Prestamo.find({usuario: req.user.sub, estado: false}) // ---> Se obtiene la cantidad permitado de préstamos para el usuario
@@ -137,15 +137,15 @@ async function prestarBibliografia(req, res){
     if(prestadosActual.length > 10){
         return res.status(500).send({mensaje: "No tiene espacio para otro préstamo"})
     }else{
-        if(params.bibliografia){
+        if(idBibliografia){
 
-            var disponiblesLibro = await Bibliografia.findById(params.bibliografia) // ---> Se obtiene la cantidad de disponibles del libro
+            var disponiblesLibro = await Bibliografia.findById(idBibliografia) // ---> Se obtiene la cantidad de disponibles del libro
             if(disponiblesLibro.disponibles === 0){
-                return res.status(200).send({mensaje: "El libro no está disponible"})
+                return res.status(500).send({mensaje: "La bibliografía no está disponible"})
             }
 
             prestamoModel.usuario = req.user.sub;
-            prestamoModel.bibliografia = params.bibliografia;
+            prestamoModel.bibliografia = idBibliografia;
             prestamoModel.fecha_inicial = new Date(Date.now());
             prestamoModel.fecha_final = null;
             prestamoModel.estado = false;
@@ -158,10 +158,10 @@ async function prestarBibliografia(req, res){
                 }else if(prestamo && prestamo.length >= 1){
                     return res.status(500).send({mensaje: "Usted ya ha prestado esta bibliografía"})
                 }else{
-                    prestamoModel.save((err,prestamo) => {
+                    prestamoModel.save((err,prestamoSave) => {
                         if(err){
                             return res.status(500).send({ mensaje: "Error en la petición al guardar"})
-                        }else if(!prestamo){
+                        }else if(!prestamoSave){
                             return res.status(500).send({ mensaje: "No se ha podido almacenar el préstamo"})
                         }else{
                             Usuario.findOneAndUpdate({_id: req.user.sub}, {$inc: {n_prestamos: + 1}}, {new: true}, (err, usuario) => {
@@ -182,7 +182,7 @@ async function prestarBibliografia(req, res){
                                     console.log(libro);
                                 }
                             })
-                            return res.status(200).send({prestamo})
+                            return res.status(200).send({prestamoSave})
                         }
                     })
                 }
@@ -207,7 +207,7 @@ async function devolverLibro(req, res){
             }else if(!libroDevuelto){
                 return res.status(500).send({ mensaje: "No se ha podido devolver el libro"})
             }else{
-                Bibliografia.findByIdAndUpdate(prestamo.bibliografia, {$inc: {disponibles: +1}}, {new: true}, (err, bibliografia) => {
+                Bibliografia.findByIdAndUpdate(prestamo.bibliografia._id, {$inc: {disponibles: +1}}, {new: true}, (err, bibliografia) => {
                     if(err){
                         return res.status(500).send({ mensaje: "Error en la petición al devolver el libro"})
                     }else if(!bibliografia){
@@ -217,7 +217,7 @@ async function devolverLibro(req, res){
                     }
                 })
                 console.log(libroDevuelto);
-                return res.status(200).send({mensaje: "El libro se ha devuelto"})
+                return res.status(200).send({libroDevuelto})
             }
         })
     }else{
