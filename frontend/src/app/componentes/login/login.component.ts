@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login/login.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -16,10 +17,11 @@ export class LoginComponent implements OnInit {
     password: "",
     getToken: true
   }
-  constructor(private TitleService: Title, private loginService: LoginService, private router: Router){
-    this.TitleService.setTitle("Biblioteca Digital | Login")
+  showContent: Boolean = false;
+  constructor(private spinnerService: NgxSpinnerService, private TitleService: Title, private loginService: LoginService, private router: Router){
   }
   ngOnInit(): void {
+    this.TitleService.setTitle("Biblioteca Digital | Login")
   }
 
   //Función para login

@@ -105,21 +105,7 @@ h2 span{
   background: #e0e0e0;
   border-left: 1px solid #e0e0e0;
 
-  animation: maquina 3.5s infinite alternate;
-}
-
-.nombre{
-  position: relative;
-}
-
-.nombre span{
-  position: absolute;
-  right: 0;
-  width: 0;
-  background: #3060a1;
-  border-left: 1px solid #3060a1;
-
-  animation: maquina 3.5 alternate;
+  animation: maquina 6.5s alternate;
 }
 
 @keyframes maquina {

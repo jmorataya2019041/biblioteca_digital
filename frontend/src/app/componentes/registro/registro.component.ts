@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login/login.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -20,11 +21,12 @@ export class RegistroComponent implements OnInit {
     rol: "",
     password: ""
   }
-  constructor(private titleService: Title, private loginService: LoginService, private router: Router) {
-    this.titleService.setTitle("Biblioteca Digital | Registro")
+  showContent: Boolean = false;
+  constructor(private spinnerService: NgxSpinnerService, private titleService: Title, private loginService: LoginService, private router: Router) {
   }
 
   ngOnInit(): void {
+    this.titleService.setTitle("Biblioteca Digital | Registro")
   }
 
   //Función para registrar

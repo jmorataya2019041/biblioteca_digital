@@ -11,16 +11,16 @@ export class HomeComponent implements OnInit {
   showContent: Boolean = false;
 
   constructor(private titleService: Title, private spinnerService: NgxSpinnerService) {
-    this.titleService.setTitle("Biblioteca Digital | Inicio")
   }
 
   ngOnInit(): void {
+    this.titleService.setTitle("Biblioteca Digital | Inicio")
     this.Spinner();
   }
 
   Spinner(){
     this.spinnerService.show('main');
-    setTimeout(() => {this.showContent = true; this.spinnerService.hide('main')}, 2000)
+    setTimeout(() => {this.showContent = true; this.spinnerService.hide('main')}, 500)
   }
 
 }
