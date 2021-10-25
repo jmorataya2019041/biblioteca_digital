@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
 
   Spinner(){
     this.spinnerService.show('main');
-    setTimeout(() => {this.showContent = true; this.spinnerService.hide('main')}, 500)
+    setTimeout(() => {this.showContent = true; this.spinnerService.hide('main')}, 1000)
   }
 
 }

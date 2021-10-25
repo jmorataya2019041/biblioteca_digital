@@ -105,7 +105,7 @@ h2 span{
   background: #e0e0e0;
   border-left: 1px solid #e0e0e0;
 
-  animation: maquina 6.5s alternate;
+  animation: maquina 8.5s alternate;
 }
 
 @keyframes maquina {
